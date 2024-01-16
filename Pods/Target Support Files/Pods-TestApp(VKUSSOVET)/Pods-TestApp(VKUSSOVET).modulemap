@@ -1,0 +1,6 @@
+framework module Pods_TestApp_VKUSSOVET_ {
+  umbrella header "Pods-TestApp(VKUSSOVET)-umbrella.h"
+
+  export *
+  module * { export * }
+}
