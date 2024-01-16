@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9D009A722B56BF4B008A8C2B /* PhoneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D009A712B56BF4B008A8C2B /* PhoneController.swift */; };
+		9D009A742B56C314008A8C2B /* ShopingCartController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D009A732B56C314008A8C2B /* ShopingCartController.swift */; };
+		9D009A762B56C3A1008A8C2B /* InformationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D009A752B56C3A1008A8C2B /* InformationController.swift */; };
+		9D009A782B56C585008A8C2B /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D009A772B56C584008A8C2B /* MainTabBarController.swift */; };
 		9D99EFC42B55C8F2003EC85D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D99EFC32B55C8F2003EC85D /* AppDelegate.swift */; };
 		9D99EFC62B55C8F2003EC85D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D99EFC52B55C8F2003EC85D /* SceneDelegate.swift */; };
 		9D99EFC82B55C8F2003EC85D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D99EFC72B55C8F2003EC85D /* ViewController.swift */; };
@@ -22,6 +26,10 @@
 /* Begin PBXFileReference section */
 		4B0F2847CBDEC791930B0845 /* Pods-TestingApp(Vkussovet).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestingApp(Vkussovet).release.xcconfig"; path = "Target Support Files/Pods-TestingApp(Vkussovet)/Pods-TestingApp(Vkussovet).release.xcconfig"; sourceTree = "<group>"; };
 		957CA2A6351C33E827A0F3F3 /* Pods_TestingApp_Vkussovet_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TestingApp_Vkussovet_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D009A712B56BF4B008A8C2B /* PhoneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneController.swift; sourceTree = "<group>"; };
+		9D009A732B56C314008A8C2B /* ShopingCartController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopingCartController.swift; sourceTree = "<group>"; };
+		9D009A752B56C3A1008A8C2B /* InformationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationController.swift; sourceTree = "<group>"; };
+		9D009A772B56C584008A8C2B /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		9D99EFC02B55C8F2003EC85D /* TestingApp(Vkussovet).app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TestingApp(Vkussovet).app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D99EFC32B55C8F2003EC85D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = "../New Group/AppDelegate.swift"; sourceTree = "<group>"; };
 		9D99EFC52B55C8F2003EC85D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SceneDelegate.swift; path = "../New Group/SceneDelegate.swift"; sourceTree = "<group>"; };
@@ -83,7 +91,11 @@
 				9D99EFD92B55CAA6003EC85D /* Networking.swift */,
 				9D99EFDB2B55CAC3003EC85D /* Menu.swift */,
 				9D99EFDD2B55CD7E003EC85D /* CollectionViewCell.swift */,
+				9D009A752B56C3A1008A8C2B /* InformationController.swift */,
+				9D009A772B56C584008A8C2B /* MainTabBarController.swift */,
+				9D009A732B56C314008A8C2B /* ShopingCartController.swift */,
 				9D99EFDF2B55D06E003EC85D /* AuthHeaderView.swift */,
+				9D009A712B56BF4B008A8C2B /* PhoneController.swift */,
 				9D99EFD12B55C8F4003EC85D /* Info.plist */,
 			);
 			path = "TestingApp(Vkussovet)";
@@ -232,10 +244,14 @@
 			files = (
 				9D99EFC82B55C8F2003EC85D /* ViewController.swift in Sources */,
 				9D99EFC42B55C8F2003EC85D /* AppDelegate.swift in Sources */,
+				9D009A782B56C585008A8C2B /* MainTabBarController.swift in Sources */,
 				9D99EFDE2B55CD7E003EC85D /* CollectionViewCell.swift in Sources */,
 				9D99EFC62B55C8F2003EC85D /* SceneDelegate.swift in Sources */,
+				9D009A762B56C3A1008A8C2B /* InformationController.swift in Sources */,
+				9D009A742B56C314008A8C2B /* ShopingCartController.swift in Sources */,
 				9D99EFDA2B55CAA6003EC85D /* Networking.swift in Sources */,
 				9D99EFDC2B55CAC3003EC85D /* Menu.swift in Sources */,
+				9D009A722B56BF4B008A8C2B /* PhoneController.swift in Sources */,
 				9D99EFE02B55D06E003EC85D /* AuthHeaderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
