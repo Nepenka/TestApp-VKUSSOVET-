@@ -30,7 +30,7 @@ class MainTabBarController: UITabBarController {
     }
     
     private func setTabBarApperance() {
-        tabBar.barTintColor = UIColor.black
+        tabBar.layer.borderColor = UIColor.red.cgColor
     }
 
 }

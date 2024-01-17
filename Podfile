@@ -9,5 +9,5 @@ target 'TestApp(VKUSSOVET)' do
 
 pod 'SnapKit'
 pod 'Alamofire'
-
+pod 'AlamofireImage'
 end

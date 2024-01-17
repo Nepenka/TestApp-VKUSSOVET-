@@ -15,8 +15,8 @@ struct Menu: Codable {
 }
 
 struct MenuItem: Codable {
-    let menuID: String
-    let image: String
-    let name: String
-    let subMenuCount: Int
+    var menuID: String
+    var image: String
+    var name: String
+    var subMenuCount: Int
 }

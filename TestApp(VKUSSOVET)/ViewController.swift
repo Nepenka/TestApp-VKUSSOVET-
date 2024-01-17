@@ -18,24 +18,30 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout {
     let phoneButton = UIButton()
     let logoImageView = UIImageView()
     let titleLabel = UILabel()
+    var collectionView: UICollectionView!
+    var headingLabel = UILabel()
 
     
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .systemGray6
         setupUI()
+                
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+                
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: "CollectionViewCell")
         collectionView.delegate = self
         collectionView.dataSource = self
+        
         
         view.addSubview(collectionView)
         collectionView.layer.borderWidth = 2.0
         collectionView.layer.borderColor = UIColor.black.cgColor
         collectionView.layer.cornerRadius = 5
+        collectionView.backgroundColor = .systemGray3 //UIColor(red: 66/255, green: 67/255, blue: 68/255, alpha: 1)
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(35)
             make.left.right.equalToSuperview().inset(5)
@@ -43,15 +49,22 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout {
            
         }
         
-        networking.fetchData { items in
-            DispatchQueue.main.async {
-                self.menuItems = items
-                collectionView.reloadData()
-                print("Fetched items: \(items)")
-                print("Number of menu items: \(items.count)")
-
+        networking.completionHandler = { [weak self] in
+            guard let self = self else { return }
+            self.collectionView.reloadData()
+            if let firstMenu = self.networking.menuItems.first {
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.headingLabel.alpha = 0.0
+                }) { (_) in
+                    self.headingLabel.text = firstMenu.name
+                    UIView.animate(withDuration: 0.3, animations: {
+                        self.headingLabel.alpha = 1.0
+                    })
+                }
             }
         }
+
+        networking.fetchData()
     }
     
     //MARK: - UI Setup
@@ -59,6 +72,7 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout {
         view.addSubview(logoImageView)
         view.addSubview(titleLabel)
         view.addSubview(phoneButton)
+        view.addSubview(headingLabel)
         
         logoImageView.contentMode = .scaleAspectFit
         logoImageView.image = UIImage(named: "logo1")
@@ -79,9 +93,8 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout {
             label.left.equalTo(logoImageView.snp.right).offset(-6)
         }
         
+        
         let phoneImage = UIImage(systemName: "phone.fill")
-        
-        
         phoneButton.setImage(phoneImage, for: .normal)
         phoneButton.imageView?.contentMode = .scaleAspectFit
         phoneButton.tintColor = .black
@@ -92,6 +105,17 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout {
         phoneButton.snp.makeConstraints { phone in
             phone.centerY.equalTo(logoImageView)
             phone.left.equalTo(titleLabel.snp.right).offset(85)
+        }
+        
+        
+        headingLabel.text = ""
+        headingLabel.font = UIFont(name: "Helvetica-Bold", size: 27)
+        headingLabel.textColor = .black
+        headingLabel.numberOfLines = 0
+        headingLabel.lineBreakMode = .byWordWrapping
+        headingLabel.snp.makeConstraints { heading in
+            heading.top.equalTo(logoImageView.snp.bottom).offset(200)
+            heading.left.right.equalToSuperview().inset(15)
         }
         
         
@@ -111,20 +135,50 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
         return networking.menuItems.count
     }
     
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: CollectionViewCell.self), for: indexPath) as? CollectionViewCell else {
-            return collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: UICollectionViewCell.self), for: indexPath)
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell", for: indexPath) as? CollectionViewCell else {
+            return UICollectionViewCell()
         }
-        
+
         let menu = networking.menuItems[indexPath.item]
-            cell.configure(with: menu)
-        
+        cell.configure(with: menu)
+
         return cell
     }
+
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 100, height: 100)
+            let collectionViewWidth = collectionView.bounds.width
+            let spacing = 5
+            let numberOfColumns = 3
+
+            let cellWidth = (collectionViewWidth - CGFloat(numberOfColumns - 1) * CGFloat(spacing)) / CGFloat(numberOfColumns)
+            let cellHeight = collectionView.bounds.height - 10
+
+            return CGSize(width: cellWidth, height: cellHeight)
+        }
+
+        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+            return 5
+        }
+
+        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+            return UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+        }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedMenu = networking.menuItems[indexPath.item]
+            UIView.animate(withDuration: 0.3, animations: {
+                self.headingLabel.alpha = 0.0
+            }) { (_) in
+                self.headingLabel.text = selectedMenu.name
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.headingLabel.alpha = 1.0
+                })
+            }
     }
-    
-    
 }
+
+

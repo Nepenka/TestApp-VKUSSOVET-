@@ -15,19 +15,28 @@ class Networking {
     var menuItems: [MenuItem] = []
     var completionHandler: (() -> Void)?
     
-    func fetchData(completion: @escaping ([MenuItem]) -> Void) {
+    func fetchData() {
         AF.request(apiEndpoint).responseDecodable(of: Menu.self) { [weak self] response in
             guard let self = self else { return }
             
             switch response.result {
             case .success(let menu):
                 print(menu.status)
-                let menuItems = menu.menuList
-                completion(menuItems)
+                self.menuItems = menu.menuList
+                
+                let baseURL = "https://vkus-sovet.ru"
+                self.menuItems = self.menuItems.map { menuItem in
+                    var updatedMenuItem = menuItem
+                    updatedMenuItem.image = baseURL + menuItem.image
+                    return updatedMenuItem
+                }
+
+                self.completionHandler?()
                 
             case .failure(let error):
                 print("Error making request: \(error)")
-                completion([])
+                self.menuItems = []
+                self.completionHandler?()
             }
         }
     }
