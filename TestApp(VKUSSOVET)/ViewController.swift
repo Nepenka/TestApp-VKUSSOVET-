@@ -15,39 +15,55 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout {
     //MARK: - UI Components
     let networking = Networking()
     var menuItems: [MenuItem] = []
+    var dishLists: [DishesList] = []
     let phoneButton = UIButton()
     let logoImageView = UIImageView()
     let titleLabel = UILabel()
     var collectionView: UICollectionView!
     var headingLabel = UILabel()
-
+    var dishesCollectionView: UICollectionView!
     
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemGray6
         setupUI()
-                
+        
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-                
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: "CollectionViewCell")
         collectionView.delegate = self
         collectionView.dataSource = self
-        
+        collectionView.layer.cornerRadius = 10
+        collectionView.showsHorizontalScrollIndicator = false
+
         
         view.addSubview(collectionView)
-        collectionView.layer.borderWidth = 2.0
-        collectionView.layer.borderColor = UIColor.black.cgColor
-        collectionView.layer.cornerRadius = 5
-        collectionView.backgroundColor = .systemGray3 //UIColor(red: 66/255, green: 67/255, blue: 68/255, alpha: 1)
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(35)
             make.left.right.equalToSuperview().inset(5)
             make.height.equalTo(150)
-           
         }
+
+        
+        let layout2 = UICollectionViewFlowLayout()
+        layout2.scrollDirection = .vertical
+        dishesCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout2)
+        dishesCollectionView.register(CollectionViewCell2.self, forCellWithReuseIdentifier: "cell")
+        dishesCollectionView.backgroundColor = .white
+        dishesCollectionView.delegate = self
+        dishesCollectionView.dataSource = self
+
+        
+        view.addSubview(dishesCollectionView)
+        dishesCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(headingLabel.snp.bottom).offset(50)
+            make.left.right.equalToSuperview().inset(5)
+            make.height.equalTo(350)
+        }
+
+        
         
         networking.completionHandler = { [weak self] in
             guard let self = self else { return }
@@ -63,7 +79,16 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout {
                 }
             }
         }
-
+        
+        /*
+        networking.completionHandler = { [weak self] in
+            guard let self = self else {return}
+            self.dishesCollectionView.reloadData()
+            self.dishLists = self.networking.dishesList
+        }
+        */
+        
+        //networking.fetchDataForAnotherCollectionView()
         networking.fetchData()
     }
     
@@ -114,7 +139,7 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout {
         headingLabel.numberOfLines = 0
         headingLabel.lineBreakMode = .byWordWrapping
         headingLabel.snp.makeConstraints { heading in
-            heading.top.equalTo(logoImageView.snp.bottom).offset(200)
+            heading.top.equalTo(logoImageView.snp.bottom).offset(180)
             heading.left.right.equalToSuperview().inset(15)
         }
         
@@ -132,35 +157,53 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout {
 
 extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return networking.menuItems.count
+        if collectionView == dishesCollectionView {
+            return networking.dishesList.count
+        } else {
+            return networking.menuItems.count
+        }
     }
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell", for: indexPath) as? CollectionViewCell else {
-            return UICollectionViewCell()
+        if collectionView == dishesCollectionView {
+            guard let cell2 = dishesCollectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? CollectionViewCell2 else {
+                return UICollectionViewCell()
+            }
+            
+            let dish = networking.dishesList[indexPath.item]
+            cell2.configure1(with: dish)
+            cell2.backgroundColor = UIColor.systemGray3
+            
+            
+            return cell2
+            
+        } else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell", for: indexPath) as? CollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            let menu = networking.menuItems[indexPath.item]
+            cell.configure(with: menu)
+            cell.backgroundColor = UIColor.systemGray3
+            
+            return cell
         }
-
-        let menu = networking.menuItems[indexPath.item]
-        cell.configure(with: menu)
-
-        return cell
     }
 
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-            let collectionViewWidth = collectionView.bounds.width
-            let spacing = 5
-            let numberOfColumns = 3
+        let collectionViewWidth = collectionView.bounds.width
+        let spacing = 5
+        let numberOfColumns = 3
+        
+        let cellWidth = (collectionViewWidth - CGFloat(numberOfColumns - 1) * CGFloat(spacing)) / CGFloat(numberOfColumns)
+        let cellHeight = collectionView.bounds.height - 10
 
-            let cellWidth = (collectionViewWidth - CGFloat(numberOfColumns - 1) * CGFloat(spacing)) / CGFloat(numberOfColumns)
-            let cellHeight = collectionView.bounds.height - 10
-
-            return CGSize(width: cellWidth, height: cellHeight)
+        return CGSize(width: cellWidth, height: cellHeight)
         }
 
         func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-            return 5
+            return 10
         }
 
         func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

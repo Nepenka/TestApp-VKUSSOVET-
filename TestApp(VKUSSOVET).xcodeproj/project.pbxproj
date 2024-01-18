@@ -19,6 +19,9 @@
 		9D81EBFC2B571DAD00887B2C /* ShopingCartController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D81EBFB2B571DAD00887B2C /* ShopingCartController.swift */; };
 		9D81EBFE2B571DBB00887B2C /* PhoneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D81EBFD2B571DBB00887B2C /* PhoneController.swift */; };
 		9D9E283D2B571EA4002155F5 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9E283C2B571EA4002155F5 /* CollectionViewCell.swift */; };
+		9DA9B9002B5928F0005ABA28 /* CollectionViewCell2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA9B8FF2B5928F0005ABA28 /* CollectionViewCell2.swift */; };
+		9DA9B9022B592D3C005ABA28 /* Dishes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA9B9012B592D3C005ABA28 /* Dishes.swift */; };
+		9DA9B9042B59316C005ABA28 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA9B9032B59316C005ABA28 /* SecondViewController.swift */; };
 		A7E68A34E9D297C3F4FCEEA5 /* Pods_TestApp_VKUSSOVET_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F16ADBABB4D06751643E2B0 /* Pods_TestApp_VKUSSOVET_.framework */; };
 /* End PBXBuildFile section */
 
@@ -39,6 +42,9 @@
 		9D81EBFB2B571DAD00887B2C /* ShopingCartController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopingCartController.swift; sourceTree = "<group>"; };
 		9D81EBFD2B571DBB00887B2C /* PhoneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneController.swift; sourceTree = "<group>"; };
 		9D9E283C2B571EA4002155F5 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
+		9DA9B8FF2B5928F0005ABA28 /* CollectionViewCell2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell2.swift; sourceTree = "<group>"; };
+		9DA9B9012B592D3C005ABA28 /* Dishes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dishes.swift; sourceTree = "<group>"; };
+		9DA9B9032B59316C005ABA28 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		C95820E38E8C729683C8D9EA /* Pods-TestApp(VKUSSOVET).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestApp(VKUSSOVET).release.xcconfig"; path = "Target Support Files/Pods-TestApp(VKUSSOVET)/Pods-TestApp(VKUSSOVET).release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -75,7 +81,6 @@
 			isa = PBXGroup;
 			children = (
 				9D81EBDE2B571D0100887B2C /* TestApp(VKUSSOVET) */,
-				9D81EBDD2B571D0100887B2C /* Products */,
 				6B8FA9941E5B6C6D6C58A3F2 /* Pods */,
 				44762FEE896EFF8B46C5FAAC /* Frameworks */,
 			);
@@ -87,6 +92,7 @@
 				9D81EBDC2B571D0100887B2C /* TestApp(VKUSSOVET).app */,
 			);
 			name = Products;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		9D81EBDE2B571D0100887B2C /* TestApp(VKUSSOVET) */ = {
@@ -95,14 +101,18 @@
 				9D9E283B2B571E49002155F5 /* Application */,
 				9D9E283A2B571E3E002155F5 /* Resource */,
 				9D81EBE32B571D0100887B2C /* ViewController.swift */,
+				9DA9B9032B59316C005ABA28 /* SecondViewController.swift */,
 				9D81EBF32B571D6600887B2C /* Networking.swift */,
 				9D81EBF52B571D7300887B2C /* Menu.swift */,
+				9DA9B9012B592D3C005ABA28 /* Dishes.swift */,
 				9D81EBFD2B571DBB00887B2C /* PhoneController.swift */,
 				9D81EBF92B571D9800887B2C /* MainTabBarController.swift */,
 				9D9E283C2B571EA4002155F5 /* CollectionViewCell.swift */,
+				9DA9B8FF2B5928F0005ABA28 /* CollectionViewCell2.swift */,
 				9D81EBF72B571D8800887B2C /* InformationController.swift */,
 				9D81EBFB2B571DAD00887B2C /* ShopingCartController.swift */,
 				9D81EBED2B571D0500887B2C /* Info.plist */,
+				9D81EBDD2B571D0100887B2C /* Products */,
 			);
 			path = "TestApp(VKUSSOVET)";
 			sourceTree = "<group>";
@@ -245,10 +255,13 @@
 				9D81EBFE2B571DBB00887B2C /* PhoneController.swift in Sources */,
 				9D81EBE02B571D0100887B2C /* AppDelegate.swift in Sources */,
 				9D81EBFA2B571D9800887B2C /* MainTabBarController.swift in Sources */,
+				9DA9B9042B59316C005ABA28 /* SecondViewController.swift in Sources */,
 				9D81EBFC2B571DAD00887B2C /* ShopingCartController.swift in Sources */,
 				9D81EBE22B571D0100887B2C /* SceneDelegate.swift in Sources */,
+				9DA9B9002B5928F0005ABA28 /* CollectionViewCell2.swift in Sources */,
 				9D81EBF42B571D6600887B2C /* Networking.swift in Sources */,
 				9D81EBF62B571D7300887B2C /* Menu.swift in Sources */,
+				9DA9B9022B592D3C005ABA28 /* Dishes.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
