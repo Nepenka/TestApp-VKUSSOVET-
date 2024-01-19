@@ -15,7 +15,7 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout {
     //MARK: - UI Components
     let networking = Networking()
     var menuItems: [MenuItem] = []
-    var dishLists: [DishesList] = []
+    var dishLists: [Dish] = []
     let phoneButton = UIButton()
     let logoImageView = UIImageView()
     let titleLabel = UILabel()
@@ -52,15 +52,16 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout {
         dishesCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout2)
         dishesCollectionView.register(CollectionViewCell2.self, forCellWithReuseIdentifier: "cell")
         dishesCollectionView.backgroundColor = .white
+        dishesCollectionView.showsVerticalScrollIndicator = false
         dishesCollectionView.delegate = self
         dishesCollectionView.dataSource = self
 
         
         view.addSubview(dishesCollectionView)
         dishesCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(headingLabel.snp.bottom).offset(50)
+            make.top.equalTo(headingLabel.snp.bottom).offset(30)
             make.left.right.equalToSuperview().inset(5)
-            make.height.equalTo(350)
+            make.height.equalTo(370)
         }
 
         
@@ -79,18 +80,10 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout {
                 }
             }
         }
-        
-        /*
-        networking.completionHandler = { [weak self] in
-            guard let self = self else {return}
-            self.dishesCollectionView.reloadData()
-            self.dishLists = self.networking.dishesList
-        }
-        */
-        
-        //networking.fetchDataForAnotherCollectionView()
         networking.fetchData()
+        
     }
+    
     
     //MARK: - UI Setup
     private func setupUI() {
@@ -173,7 +166,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
             
             let dish = networking.dishesList[indexPath.item]
             cell2.configure1(with: dish)
-            cell2.backgroundColor = UIColor.systemGray3
+            cell2.backgroundColor = UIColor.clear
             
             
             return cell2
@@ -184,7 +177,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
             }
             let menu = networking.menuItems[indexPath.item]
             cell.configure(with: menu)
-            cell.backgroundColor = UIColor.systemGray3
+            cell.backgroundColor = UIColor.clear
             
             return cell
         }
@@ -192,15 +185,22 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
 
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let collectionViewWidth = collectionView.bounds.width
-        let spacing = 5
-        let numberOfColumns = 3
-        
-        let cellWidth = (collectionViewWidth - CGFloat(numberOfColumns - 1) * CGFloat(spacing)) / CGFloat(numberOfColumns)
-        let cellHeight = collectionView.bounds.height - 10
-
-        return CGSize(width: cellWidth, height: cellHeight)
+        if collectionView == dishesCollectionView {
+            let cellWidth = (collectionView.bounds.width - 20) / 2
+            let cellHeight: CGFloat = 250.0
+            return CGSize(width: cellWidth, height: cellHeight)
+        }else{
+            let collectionViewWidth = collectionView.bounds.width
+            let spacing = 5
+            let numberOfColumns = 3
+            
+            let cellWidth = (collectionViewWidth - CGFloat(numberOfColumns - 1) * CGFloat(spacing)) / CGFloat(numberOfColumns)
+            let cellHeight = collectionView.bounds.height - 10
+            
+            return CGSize(width: cellWidth, height: cellHeight)
         }
+        
+    }
 
         func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
             return 10
@@ -221,7 +221,10 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
                     self.headingLabel.alpha = 1.0
                 })
             }
+        
+        networking.fetchDataByIdAlamofire(menuID: selectedMenu.menuID) { [weak self] in
+                guard let self = self else { return }
+                self.dishesCollectionView.reloadData()
+            }
     }
 }
-
-

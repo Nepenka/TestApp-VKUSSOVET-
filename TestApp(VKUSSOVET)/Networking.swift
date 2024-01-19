@@ -1,20 +1,15 @@
-//
-//  Networking.swift
-//  TestApp(VKUSSOVET)
-//
-//  Created by 123 on 16.01.24.
-//
+
+//Networking...
+
 
 import UIKit
 import Alamofire
 
-
 class Networking {
-    
     let apiEndpoint = "https://vkus-sovet.ru/api/getMenu.php"
     let apiEndpoint2 = "https://vkus-sovet.ru/api/getSubMenu.php"
     var menuItems: [MenuItem] = []
-    var dishesList: [DishesList] = []
+    var dishesList: [Dish] = []
     var completionHandler: (() -> Void)?
     
     func fetchData() {
@@ -32,7 +27,7 @@ class Networking {
                     updatedMenuItem.image = baseURL + menuItem.image
                     return updatedMenuItem
                 }
-
+                
                 self.completionHandler?()
                 
             case .failure(let error):
@@ -43,31 +38,41 @@ class Networking {
         }
     }
     
-    
-    func fetchDataForAnotherCollectionView() {
-        AF.request(apiEndpoint2).responseDecodable(of: Dishes.self) { [weak self] response in
-            guard let self = self else {return}
+    func fetchDataByIdAlamofire(menuID: String, completion: @escaping () -> Void) {
+        let parameters: [String: String] = ["menuID": menuID]
+        
+        AF.request(apiEndpoint2, method: .post, parameters: parameters).responseJSON { [weak self] response in
+            guard let self = self else { return }
             
             switch response.result {
-            case .success(let dishes):
-                print(dishes.status)
-                self.dishesList = dishes.dishesList
-                
-                let baseURL = "https://vkus-sovet.ru"
-                self.dishesList = self.dishesList.map { dishesLists in
-                    var updateDishesList = dishesLists
-                    updateDishesList.image = baseURL + dishesLists.image
-                    return updateDishesList
+            case .success(let data):
+                guard let jsonData = try? JSONSerialization.data(withJSONObject: data),
+                      let dishes = try? JSONDecoder().decode(Dishes.self, from: jsonData) else {
+                    print("Ошибка при декодировании данных")
+                    completion()
+                    return
                 }
                 
-                self.completionHandler?()
+                print(dishes.status)
+                
+                var updatedDishesList = dishes.menuList
+                
+                let baseURL = "https://vkus-sovet.ru"
+                updatedDishesList = updatedDishesList.map { dish in
+                    var updatedDish = dish
+                    updatedDish.image = baseURL + dish.image
+                    return updatedDish
+                }
+                
+                self.dishesList = updatedDishesList
+                
+                completion()
                 
             case .failure(let error):
-                print("Error making request: \(error)")
-                self.dishesList = []
-                self.completionHandler?()
+                print("Ошибка при запросе данных: \(error.localizedDescription)")
+                completion()
             }
-            
         }
     }
+
 }

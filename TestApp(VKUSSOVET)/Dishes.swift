@@ -7,20 +7,17 @@
 
 import Foundation
 
-
-
-
 struct Dishes: Codable {
     let status: Bool
-    let dishesList: [DishesList]
+    let menuList: [Dish]
 }
 
-struct DishesList: Codable {
-    var id: String
+struct Dish: Codable {
+    let id: String
     var image: String
-    var name: String
-    var content: String
-    var price: String
-    var weight: String
-    var spicy: String
+    let name: String
+    let content: String
+    let price: String
+    let weight: String
+    let spicy: String?
 }
